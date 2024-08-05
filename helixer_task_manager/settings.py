@@ -24,8 +24,10 @@ SECRET_KEY = 'django-insecure-5q0p&aeppk1@@^5c+z^w#z1900oo7fzkbund@q=m-p+aeb)jz6
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# 当 DEBUG=False 时，Django 不会自动提供静态文件或媒体文件。这是为了安全起见，避免在生产环境中使用 Django 的开发服务器提供静态文件和媒体文件
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['10.10.87.98',
+                 'localhost', '127.0.0.1']
 
 
 # Application definition

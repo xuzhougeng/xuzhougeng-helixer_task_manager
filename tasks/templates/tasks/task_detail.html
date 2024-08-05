@@ -11,7 +11,7 @@
         <p>{{ task.description }}</p>
         <p>Status: {{ task.status }}</p>
         {% if task.gff_file %}
-            <p><a href=" {{ MEDIA_URL }}gff_files/{{ task.gff_file }}">Download GFF File</a></p>
+            <p><a href="{{ MEDIA_URL }}gff_files/{{ task.gff_file }}">Download GFF File</a></p>
         {% endif %}
         <a href="{% url 'task_update' task.pk %}">Edit</a>
         <form action="{% url 'task_delete' task.pk %}" method="post">

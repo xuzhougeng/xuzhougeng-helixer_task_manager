@@ -25,5 +25,6 @@ urlpatterns = [
     path('', include('tasks.urls')),
 ]
 
+# 当 DEBUG=False 时，Django 不会自动提供静态文件或媒体文件。这是为了安全起见，避免在生产环境中使用 Django 的开发服务器提供静态文件和媒体文件
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
