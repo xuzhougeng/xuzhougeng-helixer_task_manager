@@ -1,0 +1,27 @@
+# this list of models will be checked whenever Helixer.py runs, or upon
+# request to check for and potentially download newer / better models
+lineage,priority,download_link,model,model_file_name,available_since,synonyms
+land_plant,1100,https://zenodo.org/records/10836346/files/land_plant_v0.3_m_0100.h5?download=1,land_plant_v0.3_m_0100,land_plant_v0.3_m_0100.h5,2021/11/29,best_model_fullmoon_211117_17.h5
+land_plant,1200,https://zenodo.org/records/10836346/files/land_plant_v0.3_m_0200.h5?download=1,land_plant_v0.3_m_0200,land_plant_v0.3_m_0200.h5,2022/02/04,best_model_fullori_2020_9.h5
+land_plant,100,https://zenodo.org/records/10836346/files/land_plant_v0.3_a_0100.h5?download=1,land_plant_v0.3_a_0100,land_plant_v0.3_a_0100.h5,2022/08/13,
+land_plant,200,https://zenodo.org/records/10836346/files/land_plant_v0.3_a_0200.h5?download=1,land_plant_v0.3_a_0200,land_plant_v0.3_a_0200.h5,2022/11/04,
+land_plant,300,https://zenodo.org/records/10836346/files/land_plant_v0.3_a_0300.h5?download=1,land_plant_v0.3_a_0300,land_plant_v0.3_a_0300.h5,2022/11/04,
+land_plant,400,https://zenodo.org/records/10836346/files/land_plant_v0.3_a_0400.h5?download=1,land_plant_v0.3_a_0400,land_plant_v0.3_a_0400.h5,2022/11/04,
+land_plant,90,https://zenodo.org/records/10836346/files/land_plant_v0.3_a_0090.h5?download=1,land_plant_v0.3_a_0090,land_plant_v0.3_a_0090.h5,2022/11/28,
+land_plant,80,https://zenodo.org/records/10836346/files/land_plant_v0.3_a_0080.h5?download=1,land_plant_v0.3_a_0080,land_plant_v0.3_a_0080.h5,2022/11/28,
+vertebrate,1400,https://zenodo.org/records/10836346/files/vertebrate_v0.3_a_0400.h5?download=1,vertebrate_v0.3_a_0400,vertebrate_v0.3_a_0400.h5,2022/12/30,
+vertebrate,1300,https://zenodo.org/records/10836346/files/vertebrate_v0.3_a_0300.h5?download=1,vertebrate_v0.3_a_0300,vertebrate_v0.3_a_0300.h5,2022/12/30,
+vertebrate,1200,https://zenodo.org/records/10836346/files/vertebrate_v0.3_a_0200.h5?download=1,vertebrate_v0.3_a_0200,vertebrate_v0.3_a_0200.h5,2022/12/30,
+vertebrate,1100,https://zenodo.org/records/10836346/files/vertebrate_v0.3_m_0100.h5?download=1,vertebrate_v0.3_m_0100,vertebrate_v0.3_m_0100.h5,2022/09/11,
+vertebrate,90,https://zenodo.org/records/10836346/files/vertebrate_v0.3_m_0090.h5?download=1,vertebrate_v0.3_m_0090,vertebrate_v0.3_m_0090.h5,2022/12/30,
+vertebrate,80,https://zenodo.org/records/10836346/files/vertebrate_v0.3_m_0080.h5?download=1,vertebrate_v0.3_m_0080,vertebrate_v0.3_m_0080.h5,2022/12/30,
+fungi,100,https://zenodo.org/records/10836346/files/fungi_v0.3_a_0100.h5?download=1,fungi_v0.3_a_0100,fungi_v0.3_a_0100.h5,2022/11/21,
+fungi,200,https://zenodo.org/records/10836346/files/fungi_v0.3_a_0200.h5?download=1,fungi_v0.3_a_0200,fungi_v0.3_a_0200.h5,2022/11/21,
+fungi,300,https://zenodo.org/records/10836346/files/fungi_v0.3_a_0300.h5?download=1,fungi_v0.3_a_0300,fungi_v0.3_a_0300.h5,2022/11/21,
+fungi,400,https://zenodo.org/records/10836346/files/fungi_v0.3_a_0400.h5?download=1,fungi_v0.3_a_0400,fungi_v0.3_a_0400.h5,2022/11/21,
+invertebrate,600,https://zenodo.org/records/10836346/files/invertebrate_v0.3_a_0600.h5?download=1,invertebrate_v0.3_a_0600,invertebrate_v0.3_a_0600.h5,2022/12/30,
+invertebrate,500,https://zenodo.org/records/10836346/files/invertebrate_v0.3_a_0500.h5?download=1,invertebrate_v0.3_a_0500,invertebrate_v0.3_a_0500.h5,2022/12/30,
+invertebrate,400,https://zenodo.org/records/10836346/files/invertebrate_v0.3_a_0400.h5?download=1,invertebrate_v0.3_a_0400,invertebrate_v0.3_a_0400.h5,2022/12/30,
+invertebrate,300,https://zenodo.org/records/10836346/files/invertebrate_v0.3_a_0300.h5?download=1,invertebrate_v0.3_a_0300,invertebrate_v0.3_a_0300.h5,2022/12/30,
+invertebrate,200,https://zenodo.org/records/10836346/files/invertebrate_v0.3_m_0200.h5?download=1,invertebrate_v0.3_m_0200,invertebrate_v0.3_m_0200.h5,2022/12/30,
+invertebrate,100,https://zenodo.org/records/10836346/files/invertebrate_v0.3_m_0100.h5?download=1,invertebrate_v0.3_m_0100,invertebrate_v0.3_m_0100.h5,2022/12/30,

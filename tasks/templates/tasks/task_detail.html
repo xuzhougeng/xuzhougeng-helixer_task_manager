@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ task.name }}</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>{{ task.name }}</h1>
+        <p>{{ task.description }}</p>
+        <p>Status: {{ task.status }}</p>
+        {% if task.gff_file %}
+            <p><a href=" {{ MEDIA_URL }}gff_files/{{ task.gff_file }}">Download GFF File</a></p>
+        {% endif %}
+        <a href="{% url 'task_update' task.pk %}">Edit</a>
+        <form action="{% url 'task_delete' task.pk %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Delete</button>
+        </form>
+        <a href="{% url 'task_list' %}">Back to Task List</a>
+    </div>
+</body>
+</html>
