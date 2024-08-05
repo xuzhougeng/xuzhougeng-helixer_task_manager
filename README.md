@@ -37,3 +37,10 @@ python manage.py createsuperuser
 ```bash
 python manage.py runserver
 ```
+
+另外，或许你还需要创建文件用于上传数据, 并赋予权限
+
+```bash
+mkdir -p media/{uploads,gff_files}
+chmod -R 777 media/gff_files
+```
