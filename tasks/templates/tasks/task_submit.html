@@ -8,12 +8,19 @@
 <body>
     <div class="container">
         <h1>Submit Task</h1>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
             <button type="submit">Submit Job</button>
         </form>
-        <a href="{% url 'task_list' %}">Back to Task List</a>
+        <a href="{% url 'task_list' %}" class="btn">Back to Task List</a>
     </div>
 </body>
 </html>

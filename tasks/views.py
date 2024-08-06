@@ -5,6 +5,7 @@ import threading
 
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
 from .models import Task
 from .forms import TaskForm,TaskSubmissionForm
 from .models import Task
@@ -18,7 +19,7 @@ def run_annotation_command(file_path, use_demo_file, lineage, gff_label, email, 
     gff_filename = f"{uuid.uuid4()}.gff"
     gff_dir = os.path.join(settings.MEDIA_ROOT, 'gff_files')
     os.makedirs(gff_dir, exist_ok=True)
-    gff_filepath = os.path.join(gff_dir, gff_filename)
+    # gff_filepath = os.path.join(gff_dir, gff_filename)
     
     fasta_file_name = os.path.basename(file_path)
 
@@ -85,6 +86,11 @@ def task_delete(request, pk):
 
 def task_submit(request):
     if request.method == "POST":
+        # 检查当前运行的任务数量
+        running_tasks = Task.objects.filter(status='running').count()
+        if running_tasks >= 5:
+            return HttpResponse("The maximum number of running tasks (5) has been reached. Please wait for some tasks to complete before submitting new ones.", status=429)
+
         form = TaskSubmissionForm(request.POST, request.FILES)
         if form.is_valid():
             # 保存文件
@@ -104,6 +110,10 @@ def task_submit(request):
                 gff_label=gff_label,
                 email=email
             )
+
+            # 更新任务状态为运行中
+            task.status = 'running'
+            task.save()
             
             # 启动后台线程执行命令
             thread = threading.Thread(target=run_annotation_command, args=(task.file.path, use_demo_file, lineage, gff_label, email, task.id))
