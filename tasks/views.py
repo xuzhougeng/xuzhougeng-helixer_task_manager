@@ -19,17 +19,19 @@ def run_annotation_command(file_path, use_demo_file, lineage, gff_label, email, 
     gff_filename = f"{uuid.uuid4()}.gff"
     gff_dir = os.path.join(settings.MEDIA_ROOT, 'gff_files')
     os.makedirs(gff_dir, exist_ok=True)
-    # gff_filepath = os.path.join(gff_dir, gff_filename)
     
     fasta_file_name = os.path.basename(file_path)
 
+    # 使用任务ID创建唯一的容器名称
+    container_name = f"helixer_task_{task_id}"
+
     docker_command = [
-        "docker", "run", "--runtime=nvidia", "--rm", "--name", "helixer_testing_v0.3.2_cuda_11.2.0-cudnn8",
+        "docker", "run", "--runtime=nvidia", "--rm", 
+        "--name", container_name,  # 使用唯一的容器名称
         "--mount", f"type=bind,source={os.getcwd()}/media,target=/home/helixer_user/shared",
         "--mount", f"type=bind,source={os.getcwd()}/Helixer,target=/home/helixer_user/.local/share/Helixer",
         "gglyptodon/helixer-docker:helixer_v0.3.2_cuda_11.8.0-cudnn8",
         "sh", "-c",
-        # f"sleep 5 && touch /home/helixer_user/shared/gff_files/{gff_filename}"
         f"Helixer.py --fasta-path /home/helixer_user/shared/uploads/{fasta_file_name} --lineage {lineage} --gff-output-path /home/helixer_user/shared/gff_files/{gff_filename} --batch-size 32 --species {gff_label}"
     ]
 
