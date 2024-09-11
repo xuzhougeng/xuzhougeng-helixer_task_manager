@@ -92,8 +92,15 @@ def task_submit(request):
         #     return HttpResponse("The maximum number of running tasks (5) has been reached. Please wait for some tasks to complete before submitting new ones.", status=429)
 
         form = TaskSubmissionForm(request.POST, request.FILES)
+def task_submit(request):
+    if request.method == "POST":
+        # Check the current number of running tasks
+        running_tasks = Task.objects.filter(status='running').count()
+        if running_tasks >= 5:
+            return HttpResponse("The maximum number of running tasks (5) has been reached. Please wait for some tasks to complete before submitting new ones.", status=429)
+
+        form = TaskSubmissionForm(request.POST, request.FILES)
         if form.is_valid():
-            # 保存文件
             file = form.cleaned_data['file']
             use_demo_file = form.cleaned_data['use_demo_file']
             lineage = form.cleaned_data['lineage']
@@ -111,11 +118,9 @@ def task_submit(request):
                 email=email
             )
 
-            # 更新任务状态为运行中
             task.status = 'running'
             task.save()
             
-            # 启动后台线程执行命令
             thread = threading.Thread(target=run_annotation_command, args=(task.file.path, use_demo_file, lineage, gff_label, email, task.id))
             thread.start()
             
