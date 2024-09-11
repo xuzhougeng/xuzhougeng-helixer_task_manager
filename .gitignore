@@ -8,3 +8,6 @@ __pycache__/
 helixer.log
 # Ignore SQLite database
 db.sqlite3
+.auto-coder/
+actions/
+output.txt
