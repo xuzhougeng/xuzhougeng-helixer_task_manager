@@ -2,6 +2,7 @@ import subprocess
 import os
 import uuid
 import threading
+import logging
 
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
@@ -31,6 +32,9 @@ def run_annotation_command(file_path, use_demo_file, lineage, gff_label, email, 
         f"Helixer.py --fasta-path /home/helixer_user/shared/uploads/{fasta_file_name} --lineage {lineage} --gff-output-path /home/helixer_user/shared/gff_files/{gff_filename} --batch-size 32 --species {gff_label}"
     ]
 
+    # 记录启动信息和运行的命令
+    logging.info(f"Starting task {task_id} with command: {' '.join(docker_command)}")
+
     # 执行命令
     result = subprocess.run(docker_command)
 
@@ -39,8 +43,10 @@ def run_annotation_command(file_path, use_demo_file, lineage, gff_label, email, 
     if result.returncode == 0:
         task.status = 'completed'
         task.gff_file = gff_filename
+        logging.info(f"Task {task_id} completed successfully")
     else:
         task.status = 'failed'
+        logging.error(f"Task {task_id} failed with return code {result.returncode}")
     task.save()
 
     # 启动下一个pending的任务
