@@ -31,10 +31,6 @@ def run_annotation_command(file_path, use_demo_file, lineage, gff_label, email, 
         f"Helixer.py --fasta-path /home/helixer_user/shared/uploads/{fasta_file_name} --lineage {lineage} --gff-output-path /home/helixer_user/shared/gff_files/{gff_filename} --batch-size 32 --species {gff_label}"
     ]
 
-    # command = f"annotate --file {file_path} --lineage {lineage} --label {gff_label} --output {gff_filepath}"
-    # if use_demo_file:
-    #     command += " --use-demo-file"
-    #command = f"sleep 5 && touch {gff_filepath}"
     # 执行命令
     result = subprocess.run(docker_command)
 
@@ -46,6 +42,9 @@ def run_annotation_command(file_path, use_demo_file, lineage, gff_label, email, 
     else:
         task.status = 'failed'
     task.save()
+
+    # 启动下一个pending的任务
+    start_pending_task()
 
 
 def task_list(request):
@@ -145,16 +144,19 @@ def running_tasks(request):
     return render(request, 'tasks/running_tasks.html', {'tasks': tasks})
 
 def start_pending_task():
-    pending_task = Task.objects.filter(status='pending').first()
-    if pending_task:
-        pending_task.status = 'running'
-        pending_task.save()
-        thread = threading.Thread(target=run_annotation_command, args=(
-            pending_task.file.path,
-            pending_task.use_demo_file,
-            pending_task.lineage,
-            pending_task.gff_label,
-            pending_task.email,
-            pending_task.id
-        ))
-        thread.start()
+    # 检查是否有正在运行的任务
+    running_task = Task.objects.filter(status='running').exists()
+    if not running_task:
+        pending_task = Task.objects.filter(status='pending').first()
+        if pending_task:
+            pending_task.status = 'running'
+            pending_task.save()
+            thread = threading.Thread(target=run_annotation_command, args=(
+                pending_task.file.path,
+                pending_task.use_demo_file,
+                pending_task.lineage,
+                pending_task.gff_label,
+                pending_task.email,
+                pending_task.id
+            ))
+            thread.start()
