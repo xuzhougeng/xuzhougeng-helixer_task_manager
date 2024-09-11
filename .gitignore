@@ -1,0 +1,10 @@
+# Ignore log files
+*.log
+# Ignore Python cache directories
+__pycache__/
+# Ignore media directory
+/media/
+# Specific to your project
+helixer.log
+# Ignore SQLite database
+db.sqlite3
