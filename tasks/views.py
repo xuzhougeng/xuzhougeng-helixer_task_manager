@@ -92,39 +92,59 @@ def task_submit(request):
         #     return HttpResponse("The maximum number of running tasks (5) has been reached. Please wait for some tasks to complete before submitting new ones.", status=429)
 
         form = TaskSubmissionForm(request.POST, request.FILES)
+from django.db.models import F
+
 def task_submit(request):
     if request.method == "POST":
-        # Check the current number of running tasks
-        running_tasks = Task.objects.filter(status='running').count()
-        if running_tasks >= 5:
-            return HttpResponse("The maximum number of running tasks (5) has been reached. Please wait for some tasks to complete before submitting new ones.", status=429)
-
-        form = TaskSubmissionForm(request.POST, request.FILES)
-        if form.is_valid():
-            file = form.cleaned_data['file']
-            use_demo_file = form.cleaned_data['use_demo_file']
-            lineage = form.cleaned_data['lineage']
-            gff_label = form.cleaned_data['gff_label']
-            email = form.cleaned_data['email']
-            
-            task = Task.objects.create(
-                name=file.name,
-                description='',
-                status='pending',
-                file=file,
-                use_demo_file=use_demo_file,
-                lineage=lineage,
-                gff_label=gff_label,
-                email=email
-            )
-
-            task.status = 'running'
-            task.save()
-            
-            thread = threading.Thread(target=run_annotation_command, args=(task.file.path, use_demo_file, lineage, gff_label, email, task.id))
-            thread.start()
-            
-            return redirect('task_list')
+        # Check if there is any running task
+        running_task = Task.objects.filter(status='running').first()
+        if running_task:
+            # If there is a running task, set the new task to pending
+            form = TaskSubmissionForm(request.POST, request.FILES)
+            if form.is_valid():
+                file = form.cleaned_data['file']
+                use_demo_file = form.cleaned_data['use_demo_file']
+                lineage = form.cleaned_data['lineage']
+                gff_label = form.cleaned_data['gff_label']
+                email = form.cleaned_data['email']
+                
+                task = Task.objects.create(
+                    name=file.name,
+                    description='',
+                    status='pending',
+                    file=file,
+                    use_demo_file=use_demo_file,
+                    lineage=lineage,
+                    gff_label=gff_label,
+                    email=email
+                )
+                
+                return redirect('task_list')
+        else:
+            # If no running task, start the new task
+            form = TaskSubmissionForm(request.POST, request.FILES)
+            if form.is_valid():
+                file = form.cleaned_data['file']
+                use_demo_file = form.cleaned_data['use_demo_file']
+                lineage = form.cleaned_data['lineage']
+                gff_label = form.cleaned_data['gff_label']
+                email = form.cleaned_data['email']
+                
+                task = Task.objects.create(
+                    name=file.name,
+                    description='',
+                    status='running',
+                    file=file,
+                    use_demo_file=use_demo_file,
+                    lineage=lineage,
+                    gff_label=gff_label,
+                    email=email
+                )
+                
+                thread = threading.Thread(target=run_annotation_command, args=(task.file.path, use_demo_file, lineage, gff_label, email, task.id))
+                thread.start()
+                
+                return redirect('task_list')
     else:
         form = TaskSubmissionForm()
     return render(request, 'tasks/task_submit.html', {'form': form})
