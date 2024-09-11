@@ -87,9 +87,9 @@ def task_delete(request, pk):
 def task_submit(request):
     if request.method == "POST":
         # 检查当前运行的任务数量
-        running_tasks = Task.objects.filter(status='running').count()
-        if running_tasks >= 5:
-            return HttpResponse("The maximum number of running tasks (5) has been reached. Please wait for some tasks to complete before submitting new ones.", status=429)
+        # running_tasks = Task.objects.filter(status='running').count()
+        # if running_tasks >= 5:
+        #     return HttpResponse("The maximum number of running tasks (5) has been reached. Please wait for some tasks to complete before submitting new ones.", status=429)
 
         form = TaskSubmissionForm(request.POST, request.FILES)
         if form.is_valid():
