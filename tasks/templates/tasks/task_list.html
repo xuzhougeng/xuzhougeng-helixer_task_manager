@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task List</title>
     {% load static %}
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
 </head>
 <body>
@@ -10,11 +13,13 @@
         <h1>Task List</h1>
         <ul>
             {% for task in tasks %}
-                <li><a href="{% url 'task_detail' task.pk %}">{{ task.name }}</a> - {{ task.status }}</li>
+                <li class="card">
+                    <a href="{% url 'task_detail' task.pk %}">{{ task.name }}</a> - {{ task.status }}
+                </li>
             {% endfor %}
         </ul>
-        <a href="{% url 'task_submit' %}" class="btn btn-primary">Create a new task</a>
-        <a href="{% url 'running_tasks' %}" class="btn btn-primary">View running tasks</a>
+        <a href="{% url 'task_submit' %}" class="btn">Create a new task</a>
+        <a href="{% url 'running_tasks' %}" class="btn btn-secondary">View running tasks</a>
     </div>
 </body>
 </html>
