@@ -7,12 +7,8 @@ from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Task
-from .forms import TaskForm,TaskSubmissionForm
+from .forms import TaskForm, TaskSubmissionForm
 from .models import Task
-
-
-
-
 
 def run_annotation_command(file_path, use_demo_file, lineage, gff_label, email, task_id):
     # 构建命令
@@ -148,4 +144,17 @@ def running_tasks(request):
     tasks = Task.objects.filter(status='running')
     return render(request, 'tasks/running_tasks.html', {'tasks': tasks})
 
-
+def start_pending_task():
+    pending_task = Task.objects.filter(status='pending').first()
+    if pending_task:
+        pending_task.status = 'running'
+        pending_task.save()
+        thread = threading.Thread(target=run_annotation_command, args=(
+            pending_task.file.path,
+            pending_task.use_demo_file,
+            pending_task.lineage,
+            pending_task.gff_label,
+            pending_task.email,
+            pending_task.id
+        ))
+        thread.start()
