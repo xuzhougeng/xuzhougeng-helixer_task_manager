@@ -150,19 +150,5 @@ def running_tasks(request):
     return render(request, 'tasks/running_tasks.html', {'tasks': tasks})
 
 def start_pending_task():
-    # 检查是否有正在运行的任务
-    running_task = Task.objects.filter(status='running').exists()
-    if not running_task:
-        pending_task = Task.objects.filter(status='pending').first()
-        if pending_task:
-            pending_task.status = 'running'
-            pending_task.save()
-            thread = threading.Thread(target=run_annotation_command, args=(
-                pending_task.file.path,
-                pending_task.use_demo_file,
-                pending_task.lineage,
-                pending_task.gff_label,
-                pending_task.email,
-                pending_task.id
-            ))
-            thread.start()
+    from django.core.management import call_command
+    call_command('start_task')
